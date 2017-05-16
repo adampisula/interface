@@ -226,6 +226,8 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
         p("Read value from module")
         p("TEST [ID]", True)
         p("Test if module works properly")
+        p("PUT [ID] [ARGUMENT]", True)
+        p("Pass argument to module")
         p("CLEAR", True)
         p("Clear terminal")
         p("HELP", True)
