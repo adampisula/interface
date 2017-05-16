@@ -2,7 +2,6 @@
 import sys
 import glob
 import os
-from termcolor import colored
 
 #IMPORTANT VARIABLES
 modules = []
@@ -18,18 +17,18 @@ save_file = open("modules.save", "w+")
 #PRINT
 def p (text, important = False):
     if important:
-        print("::: " + colored(text, 'green'))
+        print("::: " + text)
   
     else:
-        print(": " + colored(text, 'yellow'))
+        print(": " + text)
 
 #INPUT 
 def i (text, important = False):
     if important:
-        ret = input("::: " + colored(text, 'green'))
+        ret = input("::: " + text)
   
     else:
-        ret = input(": " + colored(text, 'yellow'))
+        ret = input(": " + text)
         
     return ret
 
@@ -68,17 +67,11 @@ def test (module):
     else:
         return "NO MODULE"
 
-def put (module, arg):
-    if control_module(module):
-        return os.popen("python3 modules/" + module + "/put.py " + arg).read()
-    else:
-        return "NO MODULE"
-
 #INTERFACE
 #INPUT COMMAND
 action = input("> ").lower()
 
-#IF ACTION= "EXIT" || "QUIT" || EMPTY -> QUIT INTERFACE
+#IF ACTION="EXIT" || "QUIT" || EMPTY → QUIT INTERFACE
 while (action != "exit") and (action != "quit") and (action != "") and (action != " "):
     #DISPLAY MODULES
     if action == "display":
@@ -175,37 +168,6 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
             if (testID >= 0) and (testID < len(modules)):
                 p(test(modules[testID]))
 
-    #PUT
-    elif action.split(' ')[0] == "put":
-        if len(action.split(' ')) > 2:
-            putID = int(action.split(' ')[1])
-            putArg = ""
-
-            for inc in range(2, len(action.split(' '))):
-                putArg += action.split(' ')[inc] + " "
-
-            if (putID >= 0) and (putID < len(modules)):
-                p(put(modules[putID], putArg))
-
-        elif len(action.split(' ')) > 1:
-            putID = int(action.split(' ')[1])
-            
-            if (putID >= 0) and (putID < len(modules)):
-                putArg = i("Insert argument to pass to \'" + modules[putID] + "\': ", True)
-
-                p(put(modules[putID], putArg))
-
-        else:
-            for inc in range(len(modules)):
-                p("[" + str(inc) + "]: " + modules[inc])
-                
-            putID = int(i("Put ID: ", True))
-
-            if (putID >= 0) and (putID < len(modules)):
-                putArg = i("Insert argument to pass to \'" + modules[putID] + "\': ", True)
-
-                p(put(modules[putID], putArg))
-
     #CLEAR
     elif action == "clear":
         os.system("clear")
@@ -237,6 +199,7 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
     else:
         p("Cannot find \'" + action + "\'", True)
 
+    #INPUT COMMAND
     action = input("> ").lower()
 
 modules_save()
