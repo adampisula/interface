@@ -18,18 +18,18 @@ save_file = open("modules.save", "w+")
 #PRINT
 def p (text, important = False):
     if important:
-        print("::: " + colored(text, 'green'))
+        print("::: " + colored(text, "green"))
   
     else:
-        print(": " + colored(text, 'yellow'))
+        print(": " + colored(text, "yellow"))
 
 #INPUT 
 def i (text, important = False):
     if important:
-        ret = input("::: " + colored(text, 'green'))
+        ret = input("::: " + text)
   
     else:
-        ret = input(": " + colored(text, 'yellow'))
+        ret = input(": " + text)
         
     return ret
 
@@ -76,7 +76,18 @@ def put (module, arg):
 
 #INTERFACE
 #INPUT COMMAND
-action = input("> ").lower()
+action = ""
+
+if len(sys.argv) > 1:
+    for inc in range(1, len(sys.argv) - 1):
+        action += sys.argv[inc] + " "
+
+    action += sys.argv[len(sys.argv) - 1]
+
+    p(action, True)
+
+else:
+    action = input("> ").lower()
 
 #IF ACTION= "EXIT" || "QUIT" || EMPTY -> QUIT INTERFACE
 while (action != "exit") and (action != "quit") and (action != "") and (action != " "):
@@ -239,6 +250,10 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
     else:
         p("Cannot find \'" + action + "\'", True)
 
-    action = input("> ").lower()
+    if len(sys.argv) > 1:
+        action = ""
+    
+    else:
+        action = input("> ").lower()
 
 modules_save()
