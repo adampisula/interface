@@ -68,13 +68,13 @@ def get (module):
 
 def test (module):
     if control_module(module):
-        return os.popen("python3 " + os.path.dirname(os.path.abspath(__file__)) + "modules/" + module + "/test.py").read()
+        return os.popen("python3 " + os.path.dirname(os.path.abspath(__file__)) + "/modules/" + module + "/test.py").read()
     else:
         return "NO MODULE"
 
 def put (module, arg):
     if control_module(module):
-        return os.popen("python3 " + os.path.dirname(os.path.abspath(__file__)) + "modules/" + module + "/put.py " + arg).read()
+        return os.popen("python3 " + os.path.dirname(os.path.abspath(__file__)) + "/modules/" + module + "/put.py " + arg).read()
     else:
         return "NO MODULE"
 
