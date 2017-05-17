@@ -7,11 +7,11 @@ import os
 modules = []
 
 #LOAD ALL RECENT MODULES
-with open('modules.save') as f:
+with open(os.path.dirname(os.path.abspath(__file__)) + '/modules.save') as f:
     modules = f.read().splitlines()
 
 #IMPORTANT VARIABLES
-save_file = open("modules.save", "w+")
+save_file = open(os.path.dirname(os.path.abspath(__file__)) + "/modules.save", "w+")
 
 #FUNCTIONS
 #PRINT
@@ -40,7 +40,7 @@ def i (text, important = False):
 def control_module (module_name):
     mod_files = []
 
-    for m in os.listdir("modules/" + module_name):
+    for m in os.listdir(os.path.dirname(os.path.abspath(__file__)) + "/modules/" + module_name):
         mod_files.append(m.lower())
 
     if len(mod_files) >= 3:
@@ -61,19 +61,19 @@ def modules_save ():
 
 def get (module):
     if control_module(module):
-        return os.popen("python3 modules/" + module + "/get.py").read()
+        return os.popen("python3 " + os.path.dirname(os.path.abspath(__file__)) + "/modules/" + module + "/get.py").read()
     else:
         return "NO MODULE"
 
 def test (module):
     if control_module(module):
-        return os.popen("python3 modules/" + module + "/test.py").read()
+        return os.popen("python3 " + os.path.dirname(os.path.abspath(__file__)) + "modules/" + module + "/test.py").read()
     else:
         return "NO MODULE"
 
 def put (module, arg):
     if control_module(module):
-        return os.popen("python3 modules/" + module + "/put.py " + arg).read()
+        return os.popen("python3 " + os.path.dirname(os.path.abspath(__file__)) + "modules/" + module + "/put.py " + arg).read()
     else:
         return "NO MODULE"
 
@@ -93,6 +93,7 @@ if len(sys.argv) > 1:
     commands = action.split("@")
 
     action = commands[0]
+    action = action.strip()
 
 else:
     action = input("> ").lower()
@@ -104,12 +105,12 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
         for mod_dir in os.listdir("modules"):
             p(mod_dir)
         
-        p("Length: " + str(len(os.listdir("modules"))), True)
+        p("Length: " + str(len(os.listdir(os.path.dirname(os.path.abspath(__file__)) + "/modules"))), True)
 
     #LOAD MODULES
     elif action == "load":
         if i("Load all modules? [y/n] : ", True).lower() == "y":
-            for mod_dir in os.listdir("modules"):
+            for mod_dir in os.listdir(os.path.dirname(os.path.abspath(__file__)) + "/modules"):
                 if (control_module(mod_dir)) and (mod_dir not in modules):
                     modules.append(mod_dir)
                     p("Added \'" + mod_dir + "\' module")
@@ -118,7 +119,7 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
     elif action == "add":
         list_modules = []
         
-        for mod_dir in os.listdir("modules"):
+        for mod_dir in os.listdir(os.path.dirname(os.path.abspath(__file__)) + "/modules"):
                 if control_module(mod_dir):
                     list_modules.append(mod_dir)
 
@@ -155,10 +156,10 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
                 modules.remove(modules[rmID])
 
             else:
-                p("Cancelled removing module \'" + module_name + "\'", True)
+                p("Cancelled removing module \'" + modules[rmID] + "\'", True)
 
         else:
-            p("Cancelled removing modules", True)
+            p("Cancelled removing module", True)
     
     #GET
     elif action.split(' ')[0] == "get":
@@ -231,8 +232,8 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
 
     #HELP
     elif action == "help":
-        p("python3 ncolor_interface.py [COMMAND]", True)
-        p("python3 ncolor_interface.py [COMMAND_1]@[COMMAND_2]@[COMMAND_3]", True)
+        p("python3 interface.py [COMMAND]", True)
+        p("python3 interface.py [COMMAND_1]@[COMMAND_2]@[COMMAND_3]", True)
         p("Running interface in one-use mode (without brackets)")
         print()
         p("DISPLAY", True)
@@ -269,6 +270,8 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
         else:
             if action_inc < len(commands):
                 action = commands[action_inc]
+                action = action.strip()
+
                 action_inc += 1
 
                 p("@")

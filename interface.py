@@ -157,10 +157,10 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
                 modules.remove(modules[rmID])
 
             else:
-                p("Cancelled removing module \'" + module_name + "\'", True)
+                p("Cancelled removing module \'" + modules[rmID] + "\'", True)
 
         else:
-            p("Cancelled removing modules", True)
+            p("Cancelled removing module", True)
     
     #GET
     elif action.split(' ')[0] == "get":
