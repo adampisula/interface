@@ -16,11 +16,15 @@ save_file = open("modules.save", "w+")
 #FUNCTIONS
 #PRINT
 def p (text, important = False):
-    if important:
-        print("::: " + text)
-  
-    else:
-        print(": " + text)
+    if len(sys.argv) > 1:
+        print(text)
+
+    else:        
+        if important:
+            print("::: " + text)
+    
+        else:
+            print(": " + text)
 
 #INPUT 
 def i (text, important = False):
@@ -77,13 +81,18 @@ def put (module, arg):
 #INPUT COMMAND
 action = ""
 
+action_inc = 1
+
 if len(sys.argv) > 1:
     for inc in range(1, len(sys.argv) - 1):
         action += sys.argv[inc] + " "
 
     action += sys.argv[len(sys.argv) - 1]
+    action = action.lower()
 
-    p(action, True)
+    commands = action.split("@")
+
+    action = commands[0]
 
 else:
     action = input("> ").lower()
@@ -222,6 +231,10 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
 
     #HELP
     elif action == "help":
+        p("python3 ncolor_interface.py [COMMAND]", True)
+        p("python3 ncolor_interface.py [COMMAND_1]@[COMMAND_2]@[COMMAND_3]", True)
+        p("Running interface in one-use mode (without brackets)")
+        print()
         p("DISPLAY", True)
         p("Display all modules")
         p("MODULES, MOD", True)
@@ -250,7 +263,18 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
         p("Cannot find \'" + action + "\'", True)
 
     if len(sys.argv) > 1:
-        action = ""
+        if len(commands) == 1:
+            action = ""
+        
+        else:
+            if action_inc < len(commands):
+                action = commands[action_inc]
+                action_inc += 1
+
+                p("@")
+            
+            else:
+                action = ""
     
     else:
         action = input("> ").lower()
