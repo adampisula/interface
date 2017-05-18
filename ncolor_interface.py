@@ -43,11 +43,13 @@ def control_module (module_name):
     for m in os.listdir(os.path.dirname(os.path.abspath(__file__)) + "/modules/" + module_name):
         mod_files.append(m.lower())
 
-    if len(mod_files) >= 3:
+    if len(mod_files) >= 4:
         if "module" in mod_files:
             if "get.py" in mod_files:
                 if "test.py" in mod_files:
-                    return True    
+                    if "test.py" in mod_files:
+                        return True
+                    return False    
                 return False
             return False
         return False
@@ -103,7 +105,8 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
     #DISPLAY MODULES
     if action == "display":
         for mod_dir in os.listdir("modules"):
-            p(mod_dir)
+            if control_module(mod_dir):
+                p(mod_dir)
         
         p("Length: " + str(len(os.listdir(os.path.dirname(os.path.abspath(__file__)) + "/modules"))), True)
 
