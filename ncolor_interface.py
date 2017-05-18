@@ -47,7 +47,7 @@ def control_module (module_name):
         if "module" in mod_files:
             if "get.py" in mod_files:
                 if "test.py" in mod_files:
-                    if "test.py" in mod_files:
+                    if "put.py" in mod_files:
                         return True
                     return False    
                 return False
@@ -147,22 +147,33 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
         p("Length: " + str(len(modules)), True)
     
     #REMOVE MODULE
-    elif (action == "remove") or (action == "rm"):
-        for inc in range(len(modules)):
-            p("[" + str(inc) + "]: " + modules[inc])
-            
-        rmID = int(i("Insert ID of module which should be removed: ", True))
-        
-        if (rmID >= 0) and (rmID < len(modules)):
-            if i("Remove module \'" + modules[rmID] + "\'? [y/n] : ", True).lower() == "y":
-                p("Removed module \'" + modules[rmID] + "\'", True)
+    elif (action.split(' ')[0] == "remove") or (action.split(' ')[0] == "rm"):
+        if len(action.split(' ')) > 1:
+            rmID = int(action.split(' ')[1])
+
+            if (rmID >= 0) and (rmID < len(modules)):
                 modules.remove(modules[rmID])
+                p("Removed module \'" + modules[rmID] + "\'", True)
 
             else:
                 p("Cancelled removing module \'" + modules[rmID] + "\'", True)
 
         else:
-            p("Cancelled removing module", True)
+            for inc in range(len(modules)):
+                p("[" + str(inc) + "]: " + modules[inc])
+                
+            rmID = int(i("Insert ID of module which should be removed: ", True))
+            
+            if (rmID >= 0) and (rmID < len(modules)):
+                if i("Remove module \'" + modules[rmID] + "\'? [y/n] : ", True).lower() == "y":
+                    p("Removed module \'" + modules[rmID] + "\'", True)
+                    modules.remove(modules[rmID])
+
+                else:
+                    p("Cancelled removing module \'" + modules[rmID] + "\'", True)
+
+            else:
+                p("Cancelled removing module", True)
     
     #GET
     elif action.split(' ')[0] == "get":
