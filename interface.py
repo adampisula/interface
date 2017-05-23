@@ -132,11 +132,10 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
 
     #LOAD MODULES
     elif action == "load":
-        if i("Load all modules? [y/n] : ", True).lower() == "y":
-            for mod_dir in os.listdir(os.path.dirname(os.path.abspath(__file__)) + "/modules"):
-                if (control_module(mod_dir)) and (mod_dir not in modules):
-                    modules.append(mod_dir)
-                    p("Added \'" + mod_dir + "\' module")
+        for mod_dir in os.listdir(os.path.dirname(os.path.abspath(__file__)) + "/modules"):
+            if (control_module(mod_dir)) and (mod_dir not in modules):
+                modules.append(mod_dir)
+                p("Added \'" + mod_dir + "\' module")
 
     #ADD MODULE
     elif action.split(' ')[0] == "add":
@@ -165,9 +164,9 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
 
             if (addID >= 0) and (addID < len(list_modules)):
                 if (i("Add module \'" + list_modules[addID] + "\'? [y/n] : ", True).lower() == "y") and (list_modules[addID] not in modules):
-                    if addName not in modules:
-                        modules.append(addName)
-                        p("Added module \'" + addName + "\'", True)
+                    if list_modules[addID] not in modules:
+                        modules.append(list_modules[addID])
+                        p("Added module \'" + list_modules[addID] + "\'", True)
 
                 else:
                     p("Cancelled adding module", True)
@@ -289,9 +288,9 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
         p("Print all opened modules")
         p("LOAD", True)
         p("Load all modules")
-        p("ADD", True)
+        p("ADD [NAME]", True)
         p("Add specific module")
-        p("REMOVE, RM", True)
+        p("REMOVE, RM [NAME]", True)
         p("Remove specific module")
         p("GET [ID]", True)
         p("Read value from module")
@@ -308,7 +307,7 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
 
     #ELSE
     else:
-        p("Cannot find \'" + action + "\'", True)
+        p("Cannot find \'" + action.split(' ')[0] + "\'", True)
 
     if len(sys.argv) > 1:
         if len(commands) == 1:
