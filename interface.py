@@ -139,25 +139,38 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
                     p("Added \'" + mod_dir + "\' module")
 
     #ADD MODULE
-    elif action == "add":
+    elif action.split(' ')[0] == "add":
         list_modules = []
-        
+            
         for mod_dir in os.listdir(os.path.dirname(os.path.abspath(__file__)) + "/modules"):
                 if control_module(mod_dir):
                     list_modules.append(mod_dir)
 
-        for inc in range(len(list_modules)):
-            p("[" + str(inc) + "]: " + list_modules[inc])
-        
-        addID = int(i("Insert ID of module which should be added: ", True))
+        if len(action.split(' ')) > 1:
+            addName = action.split(' ')[1].upper()
 
-        if (addID >= 0) and (addID < len(list_modules)):
-            if (i("Add module \'" + list_modules[addID] + "\'? [y/n] : ", True).lower() == "y") and (list_modules[addID] not in modules):
-                modules.append(list_modules[addID])
-                p("Added new module \'" + list_modules[addID] + "\'", True)
+            if addName in list_modules:
+                if addName not in modules:
+                    modules.append(addName)
+                    p("Added module \'" + addName + "\'", True)
 
             else:
-                p("Cancelled adding module", True)
+                p("Cancelled adding module - no module named \'" + addName + "\'", True)
+
+        else:
+            for inc in range(len(list_modules)):
+                p("[" + str(inc) + "]: " + list_modules[inc])
+
+            addID = int(i("Insert ID of module which should be added: ", True))
+
+            if (addID >= 0) and (addID < len(list_modules)):
+                if (i("Add module \'" + list_modules[addID] + "\'? [y/n] : ", True).lower() == "y") and (list_modules[addID] not in modules):
+                    if addName not in modules:
+                        modules.append(addName)
+                        p("Added module \'" + addName + "\'", True)
+
+                else:
+                    p("Cancelled adding module", True)
     
     #DISPLAY OPENED MODULES
     elif (action == "modules") or (action == "mod"):
@@ -169,14 +182,14 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
     #REMOVE MODULE
     elif (action.split(' ')[0] == "remove") or (action.split(' ')[0] == "rm"):
         if len(action.split(' ')) > 1:
-            rmID = int(action.split(' ')[1])
+            rmName = action.split(' ')[1].upper()
 
-            if (rmID >= 0) and (rmID < len(modules)):
-                modules.remove(modules[rmID])
-                p("Removed module \'" + modules[rmID] + "\'", True)
+            if rmName in modules:
+                modules.remove(rmName)
+                p("Removed module \'" + rmName + "\'", True)
 
             else:
-                p("Cancelled removing module \'" + modules[rmID] + "\'", True)
+                p("Cancelled removing module - no module named \'" + rmName + "\'", True)
 
         else:
             for inc in range(len(modules)):
