@@ -2,7 +2,14 @@
 import sys
 import glob
 import os
-from termcolor import colored
+import importlib
+
+#IF EXISTS IMPORT TERMCOLOR
+termcolor_loader = importlib.find_loader('termcolor')
+tc_available = termcolor_loader is not None
+
+if tc_available:
+    from termcolor import colored
 
 #IMPORTANT VARIABLES
 modules = []
@@ -22,18 +29,30 @@ def p (text, important = False):
 
     else:        
         if important:
-            print("::: " + colored(text, "green"))
+            if tc_available:
+                print("::: " + colored(text, "green"))
+            else:
+                print("::: " + text)
     
         else:
-            print(": " + colored(text, "yellow"))
+            if tc_available:
+                print(": " + colored(text, "yellow"))
+            else:
+                print(": " + text)
 
 #INPUT 
 def i (text, important = False):
     if important:
-        ret = input("::: " + text)
-  
+        if tc_available:
+            ret = input("::: " + colored(text, "green"))
+        else:
+            ret = input("::: " + text)
+
     else:
-        ret = input(": " + text)
+        if tc_available:
+            ret = input(": " + colored(text, "yellow"))
+        else:
+            ret = input(": " + text)
         
     return ret
 
