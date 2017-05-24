@@ -81,9 +81,9 @@ def modules_save ():
     for m in modules:
         save_file.write(m + "\n")
 
-def get (module):
+def get (module, arg = ""):
     if control_module(module):
-        return os.popen("python3 " + os.path.dirname(os.path.abspath(__file__)) + "/modules/" + module + "/get.py").read()
+        return os.popen("python3 " + os.path.dirname(os.path.abspath(__file__)) + "/modules/" + module + "/get.py " + arg).read()
     else:
         return "NO MODULE"
 
@@ -172,11 +172,16 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
                     p("Cancelled adding module", True)
     
     #DISPLAY OPENED MODULES
-    elif (action == "modules") or (action == "mod"):
+    elif (action.split(" ")[0] == "modules") or (action.split(" ")[0] == "mod"):
         for inc in range(len(modules)):
-            p("[" + str(inc) + "]: " + modules[inc])
+            if len(action.split(" ")) > 1:
+                p(modules[inc])
+
+            else:
+                p("[" + str(inc) + "]: " + modules[inc])
             
-        p("Length: " + str(len(modules)), True)
+        if len(action.split(" ")) == 1:
+            p("Length: " + str(len(modules)), True)
     
     #REMOVE MODULE
     elif (action.split(' ')[0] == "remove") or (action.split(' ')[0] == "rm"):
@@ -213,7 +218,11 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
             getID = int(action.split(' ')[1])
 
             if (getID >= 0) and (getID < len(modules)):
-                p(get(modules[getID]))
+                if len(action.split(" ")) > 2:
+                    p(get(modules[getID]), action.split(" ")[2])
+                
+                else:
+                    p(get(modules[getID]))
 
         else:
             for inc in range(len(modules)):
