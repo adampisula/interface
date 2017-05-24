@@ -124,7 +124,7 @@ else:
 while (action != "exit") and (action != "quit") and (action != "") and (action != " "):
     #DISPLAY MODULES
     if action == "display":
-        for mod_dir in os.listdir("modules"):
+        for mod_dir in os.listdir(os.path.dirname(os.path.abspath(__file__)) + "/modules"):
             if control_module(mod_dir):
                 p(mod_dir)
         
@@ -219,7 +219,7 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
 
             if (getID >= 0) and (getID < len(modules)):
                 if len(action.split(" ")) > 2:
-                    p(get(modules[getID]), action.split(" ")[2])
+                    p(get(modules[getID], action.split(" ")[2]))
                 
                 else:
                     p(get(modules[getID]))
@@ -301,11 +301,11 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
         p("Add specific module")
         p("REMOVE, RM [NAME]", True)
         p("Remove specific module")
-        p("GET [ID]", True)
+        p("GET [ID] [ARGUMENTS]", True)
         p("Read value from module")
         p("TEST [ID]", True)
         p("Test if module works properly")
-        p("PUT [ID] [ARGUMENT]", True)
+        p("PUT [ID] [ARGUMENTS]", True)
         p("Pass argument to module")
         p("CLEAR", True)
         p("Clear terminal")
