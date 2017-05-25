@@ -13,7 +13,15 @@ if len(sys.argv) > 1:
 #NEW CONNECTION
 serial_conn = serial.Serial()
 serial_conn.baudrate = 9600
-serial_conn.port = '/dev/ttyACM1'
+
+ports = ['/dev/ttyACM0', '/dev/ttyACM1', '/dev/ttyACM2']
+
+#CONNECT TO FREE PORT
+for i in range(0, len(ports)):
+    if os.path.exists(ports[i]):
+        serial_conn.port = ports[i]
+
+        break
 
 serial_conn.open()
 
