@@ -105,6 +105,7 @@ action = ""
 
 action_inc = 1
 
+#IF IN ONE-USE MODE SPLIT SYS.ARGV
 if len(sys.argv) > 1:
     for inc in range(1, len(sys.argv) - 1):
         action += sys.argv[inc] + " "
@@ -117,6 +118,7 @@ if len(sys.argv) > 1:
     action = commands[0]
     action = action.strip()
 
+#ELSE -> WAIT FOR COMMAND
 else:
     action = input("> ").lower()
 
@@ -318,6 +320,7 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
     else:
         p("Cannot find \'" + action.split(' ')[0] + "\'", True)
 
+    #IF IN ONE-USE MODE USE NEXT COMMAND
     if len(sys.argv) > 1:
         if len(commands) == 1:
             action = ""
@@ -334,7 +337,9 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
             else:
                 action = ""
     
+    #ELSE -> WAIT FOR NEXT COMMAND
     else:
         action = input("> ").lower()
 
+#SAVE ALL MODULES TO FILE BEFORE EXIT
 modules_save()
