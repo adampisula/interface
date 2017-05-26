@@ -2,6 +2,8 @@ import os
 import sys
 import serial
 
+#REMEMBER TO "stty -F /dev/tty* -hupcl" ALL USED PORTS
+
 #JUST IN CASE YOU'LL NEED TO CHECK OUTPUT
 def pletters(text):
     ret = ""
