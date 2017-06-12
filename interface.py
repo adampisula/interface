@@ -106,7 +106,8 @@ action = ""
 action_inc = 1
 
 #IF IN ONE-USE MODE SPLIT SYS.ARGV
-if len(sys.argv) > 1:
+if (len(sys.argv) > 1) and (sys.argv[len(sys.argv) - 1] != "-s"):
+    #if sys.argv[1] != "-s":
     for inc in range(1, len(sys.argv) - 1):
         action += sys.argv[inc] + " "
 
@@ -321,10 +322,10 @@ while (action != "exit") and (action != "quit") and (action != "") and (action !
         p("Cannot find \'" + action.split(' ')[0] + "\'", True)
 
     #IF IN ONE-USE MODE USE NEXT COMMAND
-    if len(sys.argv) > 1:
+    if (len(sys.argv) > 1) and (sys.argv[len(sys.argv) - 1] != "-s"):
         if len(commands) == 1:
             action = ""
-        
+    
         else:
             if action_inc < len(commands):
                 action = commands[action_inc]
